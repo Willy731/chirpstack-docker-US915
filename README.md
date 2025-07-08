@@ -2,15 +2,15 @@
 ## Short setup
 1. Clone the repository
 2. Install docker.
-    - sudo curl -fsSL https://get.docker.com | sh
-	  - sudo apt-get install docker-compose
+    - "sudo curl -fsSL https://get.docker.com | sh"    - "sudo apt-get install docker-compose"
 3. Run the instance.
-    - sudo docker compose up
+    - "sudo docker compose up"
     - Use " -d" to run in the background.
     - See the /service/README.md for the expected output
 4. Follow the instructions in the /service/README.md to setup start on boot.
 5. Setup the gateway.
   1. Go to http://localhose:8080 and login with "admin:admin"
+      - Change when able.
   2. Create the gateway by reviewing the output of the docker compose to find the gateway_id
   3. Create a Device Profile
       - See Wio-E5 setup below for example device.
@@ -23,7 +23,7 @@
 ## Wio-E5 Setup
 1. Connect the stock board to the PC or the Raspberry Pi
 2. Open the Com port via Putty, screen, etc.
-    - screen /dev/ttyUSB0 9600
+    - "screen /dev/ttyUSB0 9600"
     - Putty : COM5 at 9600
 3. Display the device EUIs. APPKEY must be set and cannot be viewed. (See step 4)
     - AT+ID
