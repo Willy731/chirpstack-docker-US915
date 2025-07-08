@@ -1,3 +1,42 @@
+# ChirpStack 915 Gateway and Concentratord
+## Short setup
+1. Clone the repository
+2. Install docker.
+    - sudo curl -fsSL https://get.docker.com | sh
+	  - sudo apt-get install docker-compose
+3. Run the instance.
+    - sudo docker compose up
+    - Use " -d" to run in the background.
+    - See the /service/README.md for the expected output
+4. Follow the instructions in the /service/README.md to setup start on boot.
+5. Setup the gateway.
+  1. Go to http://localhose:8080 and login with "admin:admin"
+  2. Create the gateway by reviewing the output of the docker compose to find the gateway_id
+  3. Create a Device Profile
+      - See Wio-E5 setup below for example device.
+  4. Create an Application Profile
+  5. Add a Device to the profile. You will need the:
+    1. DevEUI
+    2. AppEUI
+    3. Application Key
+
+## Wio-E5 Setup
+1. Connect the stock board to the PC or the Raspberry Pi
+2. Open the Com port via Putty, screen, etc.
+    - screen /dev/ttyUSB0 9600
+    - Putty : COM5 at 9600
+3. Display the device EUIs. APPKEY must be set and cannot be viewed. (See step 4)
+    - AT+ID
+4. Setup the E5 board via AT commands. The commands may need to be copied in rather than typed.
+    - AT+MODE=LWOTAA
+    - AT+DR=US915
+    - AT+KEY=APPKEY,"2B7E151628AED2A6ABF7158809CF4F3C"
+    - AT+CH=NUM,0-7
+    - AT+CH=DISABLE,8-71
+5. If the Gateway has been setup and the device add then start the join.
+    - AT+JOIN
+
+
 # ChirpStack Docker example
 
 This repository contains a skeleton to setup the [ChirpStack](https://www.chirpstack.io)
@@ -13,6 +52,7 @@ but keep in mind that for production usage it might need modifications.
 * `configuration/chirpstack-gateway-bridge`: directory containing the ChirpStack Gateway Bridge configuration
 * `configuration/mosquitto`: directory containing the Mosquitto (MQTT broker) configuration
 * `configuration/postgresql/initdb/`: directory containing PostgreSQL initialization scripts
+* `configuration/concentratord`: directory for the unused concentratord.toml for the xoseperez/concentratord
 
 ## Configuration
 
