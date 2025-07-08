@@ -64,22 +64,22 @@
   # Multiple regions can be enabled simultaneously. Each region must match
   # the 'name' parameter of the region configuration in '[[regions]]'.
   enabled_regions=[
-    "as923",
-    "as923_2",
-    "as923_3",
-    "as923_4",
-    "au915_0",
-    "cn470_10",
-    "cn779",
-    "eu433",
-    "eu868",
-    "in865",
-    "ism2400",
-    "kr920",
-    "ru864",
-    "us915_0",
-    "us915_1",
-  ]
+  #  "as923",
+  #  "as923_2",
+  #  "as923_3",
+  #  "as923_4",
+  #  "au915_0",
+  #  "cn470_10",
+  #  "cn779",
+  #  "eu433",
+  #  "eu868",
+  #  "in865",
+  #  "ism2400",
+  #  "kr920",
+  #  "ru864",
+    "us915_0"
+  #  "us915_1",
+ ]
 
 
 # API interface configuration.
@@ -94,7 +94,7 @@
   # is never exposed. Changing this secret will invalidate all login and API
   # tokens. The following command can be used to generate a random secret:
   #   openssl rand -base64 32
-  secret="you-must-replace-this"
+  secret="5i4Zcg7N3cVhjsnkSUU0iLB1KJslvFzKOmK6hTAJXA4="
 
 
 [integration]

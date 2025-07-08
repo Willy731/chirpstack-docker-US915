@@ -1,54 +1,4 @@
 services:
-  chirpstack:
-    image: chirpstack/chirpstack:4
-    command: -c /etc/chirpstack
-    restart: unless-stopped
-    volumes:
-      - ./configuration/chirpstack:/etc/chirpstack
-    depends_on:
-      - postgres
-      - mosquitto
-      - redis
-    environment:
-      - MQTT_BROKER_HOST=mosquitto
-      - REDIS_HOST=redis
-      - POSTGRESQL_HOST=postgres
-    ports:
-      - "8080:8080"
-
-  chirpstack-gateway-bridge:
-    image: chirpstack/chirpstack-gateway-bridge:4
-    restart: unless-stopped
-    ports:
-      - "1700:1700/udp"
-    volumes:
-      - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
-    environment:
-      - INTEGRATION__MQTT__EVENT_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/event/{{ .EventType }}
-      - INTEGRATION__MQTT__STATE_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/state/{{ .StateType }}
-      - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/command/#
-    depends_on:
-      - mosquitto
-  
-  chirpstack-gateway-bridge-basicstation:
-    image: chirpstack/chirpstack-gateway-bridge:4
-    restart: unless-stopped
-    command: -c /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge-basicstation-eu868.toml
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
-    depends_on:
-      - mosquitto
-
-  chirpstack-rest-api:
-    image: chirpstack/chirpstack-rest-api:4
-    restart: unless-stopped
-    command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
-    ports:
-      - "8090:8090"
-    depends_on:
-      - chirpstack
 
   postgres:
     image: postgres:14-alpine
@@ -75,7 +25,82 @@ services:
       - "1883:1883"
     volumes: 
       - ./configuration/mosquitto/config/:/mosquitto/config/
+#      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  chirpstack:
+    image: chirpstack/chirpstack:4
+    command: -c /etc/chirpstack
+    restart: unless-stopped
+    volumes:
+      - ./configuration/chirpstack:/etc/chirpstack
+    depends_on:
+      - postgres
+      - mosquitto
+      - redis
+    environment:
+      - MQTT_BROKER_HOST=mosquitto
+      - REDIS_HOST=redis
+      - POSTGRESQL_HOST=postgres
+    ports:
+      - "8080:8080"
+
+  concentratord:
+    image: xoseperez/chirpstack-concentratord:latest
+    container_name: chirpstack-concentratord
+    restart: unless-stopped
+    network_mode: host   
+    privileged: true     
+    user: "0:0"
+    devices:
+      - /dev/spidev0.0:/dev/spidev0.0    
+      - /dev/gpiomem:/dev/gpiomem        
+      - /dev/ttyAMA0:/dev/ttyAMA0
+      - /dev/i2c-1:/dev/i2c-1
+    environment:
+      - MODEL=seeed_wm1302
+      - CONCENTRATORD_LOG_LEVEL=debug
+      - REGION=US915
+    volumes:
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/gpiochip0:/dev/gpiochip0
+      - /dev/gpiochip1:/dev/gpiochip1
+      - ./configuration/concentratord/chirpstack-concentratord.toml:/etc/chirpstack-concentratord/chirpstack-concentratord.toml
+      - concentratord-socket:/tmp
+#    command: ["-c", "/etc/chirpstack-concentratord/chirpstack-concentratord.toml"]
+
+
+  chirpstack-gateway-bridge:
+    image: chirpstack/chirpstack-gateway-bridge:4
+    restart: unless-stopped
+    user: "0:0"
+    volumes:
+      - concentratord-socket:/tmp
+      - ./configuration/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml:/etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    environment:
+      - INTEGRATION__MQTT__EVENT_TOPIC_TEMPLATE=us915_0/gateway/{{ .GatewayID }}/event/{{ .EventType }}
+      - INTEGRATION__MQTT__STATE_TOPIC_TEMPLATE=us915_0/gateway/{{ .GatewayID }}/state/{{ .StateType }}
+      - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=us915_0/gateway/{{ .GatewayID }}/command/#
+      - CONCENTRATORD_ENABLED=true
+#      - CONCENTRATORD_EVENT_URL=ipc:///tmp/concentratord_event
+#      - CONCENTRATORD_COMMAND_URL=ipc:///tmp/concentratord_command
+    depends_on:
+      - concentratord
+      - mosquitto
+
+
+
+  chirpstack-rest-api:
+    image: chirpstack/chirpstack-rest-api:4
+    restart: unless-stopped
+    command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
+    ports:
+      - "8090:8090"
+    depends_on:
+      - chirpstack
+
+
 
 volumes:
   postgresqldata:
   redisdata:
+  concentratord-socket:
