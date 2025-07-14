@@ -2,7 +2,8 @@
 ## Short setup
 1. Clone the repository
 2. Install docker.
-    - "sudo curl -fsSL https://get.docker.com | sh"    - "sudo apt-get install docker-compose"
+    - "sudo curl -fsSL https://get.docker.com | sh"
+    - "sudo apt-get install docker-compose"
 3. Run the instance.
     - "sudo docker compose up"
     - Use " -d" to run in the background.
