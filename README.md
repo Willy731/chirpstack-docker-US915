@@ -2,11 +2,12 @@
 ## Short setup
 1. Install git and essentials
     - "sudo apt install build-essentials git"
-2. Clone the repository
+2. Clone the repository to "/opt/"
 3. Install docker.
     - "sudo curl -fsSL https://get.docker.com | sh"
     - "sudo apt-get install docker-compose"
 4. Make the lorawan devices so there are Device Profile Templates.
+    - "cd /opt/chirpstack-docker"
     - "sudo make import-lorawan-devices"
 5. Run the instance.
     - "sudo docker compose up"
