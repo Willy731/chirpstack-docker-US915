@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 echo "This script will set up ChirpStack on a Raspberry Pi with Docker."
-echo "NOTE: This script is designed to be run on a Raspberry Pi and may not work on other systems."
+echo "This setup is for US915 LoRaWAN devices."
+echo "NOTE: This script is designed to be run on a Raspberry Pi with the WM1302 SPI with Pi Hatand may not work on other systems."
 
-echo "It will install prerequisites, clone the ChirpStack Docker repository, import LoRaWAN device profiles, enable SPI, I2C, and UART, and set up ChirpStack to start on boot."
+echo "This will install prerequisites, clone the ChirpStack Docker repository, import LoRaWAN device profiles, enable SPI, I2C, and UART, and set up ChirpStack to start on boot."
 
 echo "====================================================="
-echo "NOTE: This must be run standalone and will reclone the repository if it is not in the '/opt' directory."
+echo "NOTE: This must be run standalone and will reclone the repository if it is not already clones as '/opt/chirpstack-docker' directory."
 echo "====================================================="
 
 echo "[Step 1] Installing prerequisites..."
@@ -56,13 +57,14 @@ systemctl start chirpstack-docker
 
 echo "[Step 5] Rebooting the system..."
 
-echo "After Reboot run the following command to display the Gateway_eui: "
+echo "After Reboot run the following command to display the Gateway_EUI: "
 echo "====================================================="
 echo "sudo docker exec chirpstack-concentratord gateway_eui"
 echo "====================================================="
 echo "Setup the gateway."
-echo "  1. Go to http://localhose:8080 and login with "admin:admin""
-echo "      - Change when able."
+echo "  1. Go to http://localhost:8080 and login with "admin:admin""
+echo "      - Change user/pass when able."
+echo "      - If login is needed on LAN run 'hostname -I' to get the IP address."
 echo "  2. Create a Gateway under the Tenant Section in the Left menu"
 echo "      - Use the  gateway_id from the command above as the Gateway ID."
 echo "  3. Create a Device Profile"
