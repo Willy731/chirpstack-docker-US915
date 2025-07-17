@@ -111,7 +111,24 @@ services:
       - mosquitto  # Optional, if using MQTT in flows
 
 
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    network_mode: host
+    privileged: true        
+    ports:
+      # Frontend port
+      - 8085:8085
+    environment:
+      - TZ=America/New_York  # Set your timezone if needed
+    volumes:
+      - /run/udev:/run/udev:ro
+      - /configuration/zigbee2mqtt:/app/data
+
+
 volumes:
+  zigbee2mqtt:
   postgresqldata:
   redisdata:
   concentratord-socket:
