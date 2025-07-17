@@ -1,7 +1,27 @@
+version: 4
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://localhost:1883
+advanced:
+  log_level: info
+  channel: 11
+  network_key: GENERATE
+  pan_id: GENERATE
+  ext_pan_id: GENERATE
 serial:
     # Location of the adapter
     # USB adapters - use format "port: /dev/serial/by-id/XXX"
     # Ethernet adapters - use format "port: tcp://192.168.1.12:6638"
-    port: /dev/serial/by-id/usb-Texas_Instruments_TI_CC2531_USB_CDC___0X00124B0018ED3DDF-if00
+    port: /dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-06M_96dd94f93a72ef11a2343f848fcc3fa0-if00-port0
     # Adapter type, allowed values: `zstack`, `ember`, `deconz`, `zigate` or `zboss`
     adapter: ember
+frontend:
+  package: zigbee2mqtt-windfront
+  enabled: true
+  port: 8085       # your desired port
+  host: 0.0.0.0    # optional, default is this
+  url: 'https://z2m.org'
+  base_url: /z2m
+homeassistant:
+  enabled: false
+onboarding: true
