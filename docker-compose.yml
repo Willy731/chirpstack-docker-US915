@@ -98,9 +98,21 @@ services:
     depends_on:
       - chirpstack
 
+  nodered:
+    image: nodered/node-red:latest
+    restart: unless-stopped
+    ports:
+      - "1880:1880"  # Exposes the Node-RED web UI on http://localhost:1880
+    volumes:
+      - nodered-data:/data  # Persists your flows and config
+    environment:
+      - TZ=America/New_York  # Set your timezone if needed
+    depends_on:
+      - mosquitto  # Optional, if using MQTT in flows
 
 
 volumes:
   postgresqldata:
   redisdata:
   concentratord-socket:
+  nodered-data:
