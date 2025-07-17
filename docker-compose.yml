@@ -118,7 +118,7 @@ services:
     #network_mode: host
     privileged: true
     ports:
-      - 8085:8085
+      - "8085:8085"
     environment:
       - TZ=America/New_York  # Set your timezone if needed
     volumes:

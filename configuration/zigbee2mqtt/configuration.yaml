@@ -1,4 +1,11 @@
 version: 4
+frontend:
+  package: zigbee2mqtt-windfront
+  enabled: true
+  port: 8085       # your desired port
+  host: 0.0.0.0    # optional, default is this
+  # url: 'https://z2m.local.org'
+  # base_url: /z2m
 mqtt:
   base_topic: zigbee2mqtt
   server: mqtt://localhost:1883
@@ -15,13 +22,6 @@ serial:
     port: /dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-06M_96dd94f93a72ef11a2343f848fcc3fa0-if00-port0
     # Adapter type, allowed values: `zstack`, `ember`, `deconz`, `zigate` or `zboss`
     adapter: ember
-frontend:
-  package: zigbee2mqtt-windfront
-  enabled: true
-  port: 8085       # your desired port
-  host: 0.0.0.0    # optional, default is this
-  url: 'https://z2m.local.org'
-  base_url: /z2m
-homeassistant:
-  enabled: false
-onboarding: true
+# homeassistant:
+#   enabled: false
+# onboarding: true
