@@ -20,7 +20,7 @@ frontend:
   enabled: true
   port: 8085       # your desired port
   host: 0.0.0.0    # optional, default is this
-  url: 'https://z2m.org'
+  url: 'https://z2m.local.org'
   base_url: /z2m
 homeassistant:
   enabled: false
