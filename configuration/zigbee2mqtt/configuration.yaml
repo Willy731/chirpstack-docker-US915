@@ -1,27 +1,47 @@
 version: 4
+#permit_join: true
 frontend:
   package: zigbee2mqtt-windfront
   enabled: true
-  port: 8085       # your desired port
-  host: 0.0.0.0    # optional, default is this
-  # url: 'https://z2m.local.org'
-  # base_url: /z2m
+  port: 8085
+  host: 0.0.0.0
 mqtt:
   base_topic: zigbee2mqtt
   server: mqtt://localhost:1883
 advanced:
-  log_level: info
+  log_level: debug
   channel: 11
-  network_key: GENERATE
-  pan_id: GENERATE
-  ext_pan_id: GENERATE
+  network_key:
+    - 48
+    - 218
+    - 101
+    - 18
+    - 134
+    - 18
+    - 7
+    - 205
+    - 66
+    - 240
+    - 222
+    - 1
+    - 15
+    - 77
+    - 240
+    - 168
+  pan_id: 49050
+  ext_pan_id:
+    - 18
+    - 39
+    - 181
+    - 151
+    - 185
+    - 189
+    - 167
+    - 162
 serial:
-    # Location of the adapter
-    # USB adapters - use format "port: /dev/serial/by-id/XXX"
-    # Ethernet adapters - use format "port: tcp://192.168.1.12:6638"
-    port: /dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-06M_96dd94f93a72ef11a2343f848fcc3fa0-if00-port0
-    # Adapter type, allowed values: `zstack`, `ember`, `deconz`, `zigate` or `zboss`
-    adapter: ember
-# homeassistant:
-#   enabled: false
-# onboarding: true
+  port: tcp://192.168.1.242:6638
+  baudrate: 115200
+# Disable Green LED
+  disable_led: false
+  adapter: ezsp
+

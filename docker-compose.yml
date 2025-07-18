@@ -117,6 +117,10 @@ services:
     restart: unless-stopped
     #network_mode: host
     privileged: true
+    user: "0:0"
+#    devices:
+#      - usb-SMLIGHT_SMLIGHT_SLZB-06M_96dd94f93a72ef11a2343f848fcc3fa0-if00-port0:/dev/ttyUSB0
+#      - /dev/serial:/dev/serial
     ports:
       - "8085:8085"
     environment:
